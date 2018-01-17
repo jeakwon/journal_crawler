@@ -34,7 +34,7 @@ soup = bs4.BeautifulSoup(html,'html.parser')
 articles = soup.select('article')
 
 # CSV 파일로 만들기
-f = open(upcoming_friday.strftime('%Y%m%d')+'_Nat_Neuro.csv', 'w', encoding='utf-8')
+f = open(upcoming_friday.strftime('%Y%m%d')+'_Nat_Neuro.csv', 'w', newline='', encoding='utf-8')
 wr = csv.writer(f)
 for article in articles:
 
@@ -55,9 +55,12 @@ for article in articles:
     # 아티클 제목
     Title = article.find("a").text.replace('\n','').replace('  ',''),
 
+    # 아티클 저자들
+    Author = " ".join([i.text for i in article.find_all("li", attrs={"itemprop": "creator"})])
+
     # 아티클 설명
     Description = article.find("div", attrs={"itemprop":"description"}).text.replace('\n',''),
 
 
-    wr.writerow([Type[0], PubDateStr[0],Title[0],Description[0]])
+    wr.writerow([Type[0], PubDateStr[0],Title[0],Author,Description[0]])
 f.close()
