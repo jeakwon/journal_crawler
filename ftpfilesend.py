@@ -29,3 +29,9 @@ if Tmp_fld_name not in ftp.nlst():
 
 ftp.cwd(Tmp_fld_name)
 print("### Current Dir : "+ftp.pwd())
+
+filename = upcoming_friday.strftime('%Y%m%d')+'_Nat_Neuro.docx'
+ftp.storlines('STOR ' + filename, open(filename, 'rb'))
+print(filename+" upload complete")
+
+ftp.quit()
