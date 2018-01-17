@@ -1,9 +1,3 @@
-
-# coding: utf-8
-
-# In[188]:
-
-
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
 # parser.py
@@ -15,9 +9,9 @@ from setdate import upcoming_weekday # 내가 만든 초간단 라이브러리
 
 # 시간 설정
 datenow = datetime.datetime.now()
-upcoming_friday = upcoming_weekday(datenow, 5).date() #금요일 설정
+upcoming_friday = upcoming_weekday(datenow, 4).date() #금요일 설정
+upcoming_thursday = upcoming_weekday(datenow, 3).date() #범위 끝 설정
 last_friday = upcoming_thursday - datetime.timedelta(7) #범위 시작 설정
-upcoming_thursday = upcoming_weekday(datenow, 4).date() #범위 끝 설정
 
 # HTTP GET Request
 req = requests.get('http://www.nature.com/neuro/research')
@@ -54,18 +48,16 @@ for article in articles:
     Type = article.find("span", attrs={"data-test": "article.type"}).text,
     if Type[0].find('Correction') != -1:
         continue
-    
+
     # 아티클 출판일
     PubDateStr = article.find("time").text,
-    
+
     # 아티클 제목
     Title = article.find("a").text.replace('\n','').replace('  ',''),
-    
+
     # 아티클 설명
     Description = article.find("div", attrs={"itemprop":"description"}).text.replace('\n',''),
 
 
     wr.writerow([Type[0], PubDateStr[0],Title[0],Description[0]])
-f.close()  
-    
-
+f.close()
